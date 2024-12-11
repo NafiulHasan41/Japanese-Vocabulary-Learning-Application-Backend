@@ -15,7 +15,7 @@ export const protect = (req: Request, res: Response, next: NextFunction): void =
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET || '') as JwtPayload;
-    req.user = decoded; // Attach user info to the request
+    req.user = decoded; 
     next();
   } catch (error) {
     res.status(401).json({ message: 'Token is invalid' });

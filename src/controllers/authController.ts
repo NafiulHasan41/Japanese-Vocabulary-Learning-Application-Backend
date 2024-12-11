@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import User from '../models/User';
 
 const generateToken = (id: string, role: string): string => {
-  return jwt.sign({ id, role }, process.env.JWT_SECRET || '', { expiresIn: '30d' });
+  return jwt.sign({ id, role }, process.env.JWT_SECRET || '', { expiresIn: '1d' });
 };
 
 export const registerUser = async (
@@ -13,7 +13,7 @@ export const registerUser = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password , imageURL } = req.body;
 
     const userExists = await User.findOne({ email });
     if (userExists) {
@@ -22,20 +22,21 @@ export const registerUser = async (
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({ name, email, password: hashedPassword });
+    const user = await User.create({ name, email, password: hashedPassword  , imageURL });
 
     if (user) {
       res.status(201).json({
         _id: user.id,
         name: user.name,
         email: user.email,
+        imageURL: user.imageURL,
         token: generateToken(user.id, user.role),
       });
     } else {
       res.status(400).json({ message: 'Invalid user data' });
     }
   } catch (error) {
-    next(error); // Passes errors to Express error handler
+    next(error); 
   }
 };
 
@@ -53,6 +54,7 @@ export const loginUser = async (
         _id: user.id,
         name: user.name,
         email: user.email,
+        imageURL: user?.imageURL,
         role: user.role,
         token: generateToken(user.id, user.role),
       });
@@ -60,6 +62,6 @@ export const loginUser = async (
       res.status(401).json({ message: 'Invalid email or password' });
     }
   } catch (error) {
-    next(error); // Passes errors to Express error handler
+    next(error); 
   }
 };
