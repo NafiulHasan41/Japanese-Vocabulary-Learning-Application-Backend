@@ -1,24 +1,31 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
-export const protect = (req: Request, res: Response, next: NextFunction) => {
+interface JwtPayload {
+  id: string;
+  role: string;
+}
+
+export const protect = (req: Request, res: Response, next: NextFunction): void => {
   const token = req.headers.authorization?.split(' ')[1];
   if (!token) {
-    return res.status(401).json({ message: 'Unauthorized' });
+    res.status(401).json({ message: 'Unauthorized' });
+    return;
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || '');
-    req.user = decoded;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || '') as JwtPayload;
+    req.user = decoded; // Attach user info to the request
     next();
   } catch (error) {
     res.status(401).json({ message: 'Token is invalid' });
   }
 };
 
-export const adminOnly = (req: Request, res: Response, next: NextFunction) => {
+export const adminOnly = (req: Request, res: Response, next: NextFunction): void => {
   if (req.user?.role !== 'admin') {
-    return res.status(403).json({ message: 'Admin access only' });
+    res.status(403).json({ message: 'Admin access only' });
+    return;
   }
   next();
 };
