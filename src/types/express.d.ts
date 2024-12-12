@@ -1,3 +1,4 @@
+
 import * as express from 'express';
 
 declare global {
@@ -6,6 +7,9 @@ declare global {
       user?: {
         id: string;
         role: string;
+        name: string;
+        email: string;
+        imageURL?: string;
       };
     }
   }
