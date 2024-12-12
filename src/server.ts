@@ -4,6 +4,7 @@ import cors from 'cors';
 import connectDB from './config/db';
 import authRoutes from './routes/authRoutes';
 import lessonRoutes from "./routes/lessonRoutes";
+import vocabularyRoutes from "./routes/vocabularyRoutes";
 
 
 dotenv.config();
@@ -20,6 +21,7 @@ connectDB();
 // Routes
 app.use('/api/auth', authRoutes);
 app.use("/api/lessons", lessonRoutes);
+app.use("/api/vocabularies", vocabularyRoutes);
 
 
 // Default Route
