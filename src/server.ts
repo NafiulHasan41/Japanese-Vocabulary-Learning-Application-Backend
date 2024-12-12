@@ -3,6 +3,8 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import connectDB from './config/db';
 import authRoutes from './routes/authRoutes';
+import lessonRoutes from "./routes/lessonRoutes";
+
 
 dotenv.config();
 
@@ -17,6 +19,8 @@ connectDB();
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use("/api/lessons", lessonRoutes);
+
 
 // Default Route
 app.get('/', (req: Request, res: Response) => {
