@@ -1,5 +1,5 @@
 import express from "express";
-import { createLesson, getAllLessons, updateLesson, deleteLesson } from "../controllers/lessonController";
+import { createLesson, getAllLessons,  deleteLesson, updateLesson } from "../controllers/lessonController";
 import { protect, adminOnly } from "../middleware/authMiddleware";
 
 const router = express.Router();
