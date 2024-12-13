@@ -8,6 +8,9 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
 const db_1 = __importDefault(require("./config/db"));
 const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
+const lessonRoutes_1 = __importDefault(require("./routes/lessonRoutes"));
+const vocabularyRoutes_1 = __importDefault(require("./routes/vocabularyRoutes"));
+const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 // Middleware
@@ -17,10 +20,13 @@ app.use(express_1.default.json());
 (0, db_1.default)();
 // Routes
 app.use('/api/auth', authRoutes_1.default);
+app.use("/api/lessons", lessonRoutes_1.default);
+app.use("/api/vocabularies", vocabularyRoutes_1.default);
+app.use("/api/users", userRoutes_1.default);
 // Default Route
 app.get('/', (req, res) => {
     res.send('API is running... checking');
 });
 // Start Server
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 3002;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

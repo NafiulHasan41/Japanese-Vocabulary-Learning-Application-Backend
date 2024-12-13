@@ -12,12 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loginUser = exports.registerUser = void 0;
+exports.getMe = exports.loginUser = exports.registerUser = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const User_1 = __importDefault(require("../models/User"));
-const generateToken = (id, role) => {
-    return jsonwebtoken_1.default.sign({ id, role }, process.env.JWT_SECRET || '', { expiresIn: '1d' });
+const generateToken = (id, role, name, email, imageURL) => {
+    return jsonwebtoken_1.default.sign({ id, role, name, email, imageURL }, process.env.JWT_SECRET || '', { expiresIn: '1d' });
 };
 const registerUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -35,7 +35,7 @@ const registerUser = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
                 name: user.name,
                 email: user.email,
                 imageURL: user.imageURL,
-                token: generateToken(user.id, user.role),
+                token: generateToken(user.id, user.role, user.name, user.email, user.imageURL),
             });
         }
         else {
@@ -58,7 +58,7 @@ const loginUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function
                 email: user.email,
                 imageURL: user === null || user === void 0 ? void 0 : user.imageURL,
                 role: user.role,
-                token: generateToken(user.id, user.role),
+                token: generateToken(user.id, user.role, user.name, user.email, user.imageURL),
             });
         }
         else {
@@ -70,10 +70,12 @@ const loginUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.loginUser = loginUser;
-// export const getMe = (req: Request, res: Response): void => {
-//     if (req.user) {
-//       res.status(200).json(req.user);
-//     } else {
-//       res.status(401).json({ message: 'Not authenticated' });
-//     }
-//   };
+const getMe = (req, res) => {
+    if (req.user) {
+        res.status(200).json(req.user);
+    }
+    else {
+        res.status(401).json({ message: 'Not authenticated' });
+    }
+};
+exports.getMe = getMe;

@@ -14,7 +14,7 @@ const protect = (req, res, next) => {
     }
     try {
         const decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET || '');
-        req.user = decoded; // TypeScript should now recognize `user` on `req`
+        req.user = decoded;
         next();
     }
     catch (error) {
