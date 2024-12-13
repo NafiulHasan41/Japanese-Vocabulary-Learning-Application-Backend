@@ -14,7 +14,10 @@ const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 // Middleware
-app.use((0, cors_1.default)());
+const corsOptions = {
+    origin: ['http://localhost:3000', 'https://japanese-vocabulary-learning-application-frontend.vercel.app'],
+};
+app.use((0, cors_1.default)(corsOptions));
 app.use(express_1.default.json());
 // Database Connection
 (0, db_1.default)();
@@ -28,5 +31,5 @@ app.get('/', (req, res) => {
     res.send('API is running... checking');
 });
 // Start Server
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

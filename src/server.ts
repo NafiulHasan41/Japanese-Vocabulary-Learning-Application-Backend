@@ -13,7 +13,7 @@ const app: Application = express();
 
 // Middleware
 const corsOptions = {
-    origin: ['http://localhost:3000'],
+    origin: ['http://localhost:3000' , 'https://japanese-vocabulary-learning-application-frontend.vercel.app' ],
   }
 app.use(cors(corsOptions));
 app.use(express.json());
