@@ -5,7 +5,7 @@ import connectDB from './config/db';
 import authRoutes from './routes/authRoutes';
 import lessonRoutes from "./routes/lessonRoutes";
 import vocabularyRoutes from "./routes/vocabularyRoutes";
-
+import userRoutes from "./routes/userRoutes";
 
 dotenv.config();
 
@@ -22,6 +22,7 @@ connectDB();
 app.use('/api/auth', authRoutes);
 app.use("/api/lessons", lessonRoutes);
 app.use("/api/vocabularies", vocabularyRoutes);
+app.use("/api/users", userRoutes)
 
 
 // Default Route

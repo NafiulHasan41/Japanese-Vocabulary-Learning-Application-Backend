@@ -78,3 +78,19 @@ export const deleteVocabulary = async (req: Request, res: Response): Promise<voi
     res.status(500).json({ message: "Failed to delete vocabulary", error });
   }
 };
+export const getVocabulariesForLesson = async (req: Request, res: Response) => {
+    const { lessonNumber } = req.params;
+  
+    try {
+      const lesson = await Lesson.findOne({ lessonNumber });
+      if (!lesson) {
+         res.status(404).json({ message: `Lesson number ${lessonNumber} not found` });
+         return;
+      }
+  
+      const vocabularies = await Vocabulary.find({ lesson: lesson._id });
+      res.status(200).json(vocabularies);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch vocabularies", error });
+    }
+  };

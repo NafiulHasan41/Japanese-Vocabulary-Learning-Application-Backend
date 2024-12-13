@@ -101,5 +101,13 @@ export const updateLesson = async (req: Request, res: Response): Promise<void> =
       }
     }
   };
+  export const getLessonsForUser = async (req: Request, res: Response) => {
+    try {
+      const lessons = await Lesson.find({}, "name lessonNumber").lean(); // Fetch lesson name and number
+      res.status(200).json(lessons);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch lessons", error });
+    }
+  };
   
   
