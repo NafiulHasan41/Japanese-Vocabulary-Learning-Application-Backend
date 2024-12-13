@@ -12,7 +12,10 @@ dotenv.config();
 const app: Application = express();
 
 // Middleware
-app.use(cors());
+const corsOptions = {
+    origin: ['http://localhost:3000'],
+  }
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Database Connection
@@ -31,5 +34,5 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 // Start Server
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
